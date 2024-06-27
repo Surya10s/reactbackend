@@ -20,7 +20,7 @@ mongoose.connect(process.env.mongoAtlasUrl)
 //     .catch(err => console.log("error during connected to the db"))
 
 const income = require('./income')
-const user = require('../user')
+const user = require('./user')
 const vechial = require('./vechial')
 const trip = require('./trips')
 
