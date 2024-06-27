@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const trip = require('./trips')
+const trip = require('./src/trips')
 const userschema = new mongoose.Schema({
   username :{
     type:String,
