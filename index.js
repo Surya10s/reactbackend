@@ -1,6 +1,6 @@
-if(process.env.NODE_ENV !== 'production'){
+if (process.env.NODE_ENV !== 'production') {
     require('dotenv').config();
-  }
+}
 
 const express = require('express')
 const app = express()
@@ -9,10 +9,10 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
 
-const secret  = process.env.secret
+const secret = process.env.secret
 mongoose.connect(process.env.mongoAtlasUrl)
-  .then(() => console.log('Connected!'))
-  .catch(err => console.log(err,"error during connected to the db"))
+    .then(() => console.log('Connected!'))
+    .catch(err => console.log(err, "error during connected to the db"))
 
 
 // mongoose.connect('mongodb://127.0.0.1:27017/business')
@@ -42,8 +42,6 @@ app.get('/lorrydata', async (req, res) => {
         res.status(500).json({ message: 'Server Error' });
     }
 })
-
-
 
 app.get('/userdata', async (req, res) => {
     try {
@@ -81,7 +79,7 @@ app.get('/data', async (req, res) => {
 
 app.post('/submit', async (req, res) => {
     try {
-        const data = new trip(req.body,{runValidater : true})
+        const data = new trip(req.body)
         const saveduser = await data.save()
         res.status(201).json({ message: 'Form data received', data: saveduser });
     } catch (error) {
@@ -97,7 +95,7 @@ app.post('/submit', async (req, res) => {
 
 app.post('/submitincome', async (req, res) => {
     try {
-        const incomedata = new income(req.body,{runValidater : true});
+        const incomedata = new income(req.body);
         const savedIncome = await incomedata.save();
         res.status(201).json({ message: 'Form data received', data: savedIncome });
     } catch (error) {
@@ -112,7 +110,7 @@ app.post('/submitincome', async (req, res) => {
 });
 app.post('/submitnewcustomer', async (req, res) => {
     try {
-        const newuser = new user(req.body,{runValidater : true});
+        const newuser = new user(req.body);
         const saveduser = await newuser.save();
         res.status(201).json({ message: 'Form data received', data: saveduser });
     } catch (error) {
@@ -125,9 +123,10 @@ app.post('/submitnewcustomer', async (req, res) => {
         res.status(500).json({ message: 'Internal Server Error' });
     }
 });
+
 app.post('/submitnewvechile', async (req, res) => {
     try {
-        const newuser = new vechial(req.body,{runValidater : true});
+        const newuser = new vechial(req.body);
         const savedvechial = await newuser.save();
         res.status(201).json({ message: 'Form data received', data: savedvechial });
     } catch (error) {
@@ -137,13 +136,13 @@ app.post('/submitnewvechile', async (req, res) => {
             return res.status(400).json({ message: 'Validation Error', error: error.message });
         }
 
-        res.status(500).json({ message: 'Internal Server Error' });
+        res.status(500).json(error, { message: 'Internal Server Error' });
     }
 });
 
 app.post('/submitvechile', async (req, res) => {
     try {
-        const incomedata = new income(formData,{runValidater : true});
+        const incomedata = new income(req.body);
         const savedIncome = await incomedata.save();
         res.status(201).json({ message: 'Form data received', data: savedIncome });
     } catch (error) {
@@ -159,7 +158,7 @@ app.post('/submitvechile', async (req, res) => {
 
 app.put('/tripdatamodify/:id', async (req, res) => {
     const { id } = req.params
-    const { modifiedCount } = await trip.updateOne({ _id: id }, req.body,{runValidater : true})
+    const { modifiedCount } = await trip.updateOne({ _id: id }, req.body,)
     if (modifiedCount > 0) {
         res.status(200).json({ message: 'Trip updated successfully' });
     } else {
@@ -169,7 +168,7 @@ app.put('/tripdatamodify/:id', async (req, res) => {
 
 app.put('/incomemodify/:id', async (req, res) => {
     const { id } = req.params
-    const { modifiedCount } = await income.updateOne({ _id: id }, req.body,{runValidater : true})
+    const { modifiedCount } = await income.updateOne({ _id: id }, req.body)
     if (modifiedCount > 0) {
         res.status(200).json({ message: 'Trip updated successfully' });
     } else {
